@@ -36,7 +36,11 @@ Trabalhar com PySpark muitas vezes envolve leitura e escrita de arquivos (especi
 - **Preparação de Dados de Entrada (Opcional):** Pode gerar automaticamente um arquivo `dados_entrada_raw.parquet` de exemplo no diretório temporário para scripts que esperam ler dados.
 - **Interface Amigável:** Construída com Streamlit para facilidade de uso.
 
-## Demo / Screenshots
+## Demo YouTube
+
+[![Watch the video](https://img.youtube.com/vi/gACeCyfCOK4/maxresdefault.jpg)](https://youtu.be/gACeCyfCOK4)
+
+## Screenshots
 
 ### Editor, opções de configuração (API Key, Modelo, Tentativas), botões.
 
@@ -164,4 +168,3 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir issues para rela
 ## Licença
 
 Este projeto está licenciado sob a Licença MIT. Veja o arquivo `LICENSE` para mais detalhes (ou escolha outra licença).
-

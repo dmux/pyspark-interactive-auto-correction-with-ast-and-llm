@@ -318,7 +318,7 @@ def main():
     st.markdown("""
     Esta aplicação permite testar e depurar scripts PySpark interativamente com correção automática via LLM.
     1.  Use o editor abaixo ou cole seu código PySpark.
-    2.  Se o seu código usar caminhos relativos para arquivos Parquet (ex: `df.write.parquet("output")`), a aplicação **reescreverá automaticamente** esses caminhos para usar um diretório temporário seguro.
+    2.  Se o seu código usar caminhos relativos para arquivos Parquet (ex: `df.write.parquet("output")`), a aplicação **reescreverá automaticamente** esses caminhos para usar um diretório temporário seguro, usando um AST Python.
     3.  Um arquivo Parquet de **entrada padrão** (`dados_entrada_raw.parquet`) é preparado nesse diretório, caso seu código precise lê-lo.
     4.  Clique em "Corrigir e Executar". A saída será exibida em tempo real.
     5.  Se ocorrer um erro (como o erro de sintaxe no código padrão), o LLM tentará corrigir o código automaticamente.
