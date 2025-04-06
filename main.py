@@ -369,11 +369,11 @@ try:
     # --- Código do Usuário Inserido Aqui ---
 
     # Step 1: Extract - Create a DataFrame manually
-    # !! INTENTIONAL SYNTAX ERROR: Missing comma after the third tuple !!
+    # !! INTENCIONAL ERRO DE SINTAXE: parênteses e uma virgula faltando na terceira linha !!
     data = [
         (1, "Alice", 45),
         (2, "Luiz", 70),
-        (3, "Elaine", 42)
+        (3, "Elaine", 42
         (4, "Carlos", 23),
         (5, "Vitor", 30),
         (6, "David", 17),
