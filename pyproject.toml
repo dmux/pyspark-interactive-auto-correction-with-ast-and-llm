@@ -1,0 +1,19 @@
+[project]
+name = "pyspark-code-executor-streallit"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "openai>=1.70.0",
+    "pandas>=2.2.3",
+    "pathlib>=1.0.1",
+    "pyarrow>=19.0.1",
+    "pyspark>=3.5.5",
+    "requests>=2.32.3",
+    "streamlit>=1.44.1",
+    "streamlit-ace>=0.1.1",
+    "streamlit-js>=1.0.8",
+    "streamlit-js-eval>=0.1.7",
+    "watchdog>=6.0.0",
+]
