@@ -5,11 +5,13 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "findspark>=2.0.1",
     "openai>=1.70.0",
     "pandas>=2.2.3",
     "pathlib>=1.0.1",
     "pyarrow>=19.0.1",
     "pyspark>=3.5.5",
+    "python-dotenv>=1.1.0",
     "requests>=2.32.3",
     "streamlit>=1.44.1",
     "streamlit-ace>=0.1.1",
