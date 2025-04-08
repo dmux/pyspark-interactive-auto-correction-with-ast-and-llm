@@ -150,7 +150,7 @@ def agent_2_transpile_to_pyspark(client: OpenAI, sas_code: str, documentation: s
     3.  **Gerar Dados de Entrada:** Crie DataFrames PySpark para essas entradas usando `spark.createDataFrame()`.
         *   Use nomes de variáveis baseados nos nomes SAS (ex: `customers`, `sales`).
         *   Infira esquema (nomes/tipos de colunas: StringType, IntegerType, DoubleType, DateType, etc.) do SAS/documentação. Importe de `pyspark.sql.types` e `datetime`.
-        *   Gere 3-5 linhas de dados fictícios **plausíveis e funcionais**, garantindo que **chaves de relacionamento sejam consistentes** para joins.
+        *   Gere 10-30 linhas de dados fictícios **plausíveis e funcionais**, garantindo que **chaves de relacionamento sejam consistentes** para joins.
         *   Coloque esta criação de dados *após* a inicialização da SparkSession.
     4.  **Transpilar Lógica SAS:** Converta a lógica SAS restante (DATA steps, PROC SQL, SORT, etc.) para a API de DataFrames PySpark, operando nos DataFrames criados.
     5.  **Mostrar/Indicar Saídas:** Use `dataframe_name.show()` para saídas de `PROC PRINT`. Comente `# Resultado final 'nome_df' pronto...` para tabelas finais.
@@ -357,9 +357,13 @@ if 'spark_found' not in st.session_state:
         initialize_spark_environment()
 
 # --- Layout Principal ---
-col1, col2 = st.columns(2)
+tab1, tab2, tab3 = st.tabs([
+"1. SAS Input & Documentação",
+"2. Código PySpark Gerado",
+"3. Resultados da Execução"
+])
 
-with col1:
+with tab1:
     # --- Seção 1: SAS & Agente 1 ---
     st.header("1. Código SAS")
     sas_input = st.text_area("Cole seu código SAS:", height=250, key="sas_code_input", value=st.session_state.sas_code)
@@ -392,30 +396,31 @@ with col1:
                         st.session_state.execution_ran = False; st.rerun()
 
     # --- Seção 3: PySpark & Agente 3 ---
-    if st.session_state.pyspark_code:
-        st.header("3. Código PySpark Gerado")
-        st.code(st.session_state.pyspark_code, language="python", line_numbers=True)
-        st.warning("⚠️ **Aviso:** Execução experimental e requer adaptação do código (leitura de dados).")
+    with tab2:
+        if st.session_state.pyspark_code:
+            st.header("3. Código PySpark Gerado")
+            st.code(st.session_state.pyspark_code, language="python", line_numbers=True)
+            st.warning("⚠️ **Aviso:** Execução experimental e requer adaptação do código (leitura de dados).")
 
-        run_button_disabled = not st.session_state.pyspark_code.strip() or not st.session_state.get('spark_found', False)
-        button_tooltip = "Execução desabilitada: Spark (SPARK_HOME) não encontrado." if not st.session_state.get('spark_found', False) else None
+            run_button_disabled = not st.session_state.pyspark_code.strip() or not st.session_state.get('spark_found', False)
+            button_tooltip = "Execução desabilitada: Spark (SPARK_HOME) não encontrado." if not st.session_state.get('spark_found', False) else None
 
-        if st.button("🚀 Tentar Executar PySpark (Agente 3)", disabled=run_button_disabled, help=button_tooltip):
-            with st.spinner("⏳ Agente 3 tentando executar via spark-submit..."):
-                stdout, stderr, retcode = agent_3_execute_pyspark(st.session_state.pyspark_code)
-                st.session_state.execution_stdout, st.session_state.execution_stderr = stdout, stderr
-                st.session_state.execution_return_code, st.session_state.execution_ran = retcode, True
-                st.rerun()
+            if st.button("🚀 Tentar Executar PySpark (Agente 3)", disabled=run_button_disabled, help=button_tooltip):
+                with st.spinner("⏳ Agente 3 tentando executar via spark-submit..."):
+                    stdout, stderr, retcode = agent_3_execute_pyspark(st.session_state.pyspark_code)
+                    st.session_state.execution_stdout, st.session_state.execution_stderr = stdout, stderr
+                    st.session_state.execution_return_code, st.session_state.execution_ran = retcode, True
+                    st.rerun()
 
-    elif st.session_state.agent1_run_complete:
-        st.info("Clique em 'Transpilar para PySpark (Agente 2)'.")
+        elif st.session_state.agent1_run_complete:
+            st.info("Clique em 'Transpilar para PySpark (Agente 2)'.")
 
     st.markdown("---"); st.header("Pré-visualização da Documentação")
     doc_to_show = st.session_state.edited_documentation or st.session_state.initial_documentation
     if doc_to_show: st.markdown(doc_to_show, unsafe_allow_html=True)
     else: st.info("Documentação aparecerá aqui.")
 
-with col2:
+with tab3:
     # --- Seção 4: Resultados da Execução ---
     st.header("4. Resultados da Execução (Agente 3)")
     if not st.session_state.execution_ran:
